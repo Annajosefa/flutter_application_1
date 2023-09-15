@@ -8,6 +8,8 @@ import 'package:flutter_application_1/widget/parameter_card.dart';
 import 'package:flutter_application_1/widget/harvest_row.dart';
 
 import 'package:intl/intl.dart';
+import 'package:fl_chart/fl_chart.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,6 +55,10 @@ class _HomeState extends State<Home> {
   bool r3 = false;
   bool r4 = false;
   bool r5 = false;
+  List<dynamic> humidity_1= humidity_1[];
+  List<dynamic> light_1 = light_1[];
+  List<dynamic> soil_1= soil_1[];
+  List<dynamic> temperature_1= temperature_1[];
 
   @override
   void initState() {
@@ -85,6 +91,18 @@ class _HomeState extends State<Home> {
       });
       print(event.docs.last.data());
     });
+    humidity_1 = [];
+    if(event.docs.length > 30) {
+      event.docs.getRange(0,30).forEach((element){
+        humidity_1.add(element.data()['humidity_1']);
+      });
+    }
+    else {
+      event.docs.forEach((element){
+        humidity_1.add(element.data()['humidity_1']);
+      });
+    }
+    print(humidity_1);
     super.initState();
   }
   @override

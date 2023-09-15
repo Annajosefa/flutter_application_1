@@ -6,6 +6,7 @@ class ParameterCard extends StatefulWidget {
   final Icon icon;
   final double value;
   final int decimal;
+
   const ParameterCard(
       {super.key,
       required this.width,
