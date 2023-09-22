@@ -24,6 +24,7 @@ void main() async {
     print(message.notification?.body ?? 'No new notification');
     showNotification(message.notification?.title ?? 'No title',
         message.notification?.body ?? 'No body');
+        print(message.notification?.body ?? 'No body');
     // showNotification(message.notification?.body ?? 'No new notification');
   });
   FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
@@ -98,11 +99,16 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    final userData = {
+      "key": fcmKey,
+      "subscribed" : true
+    };
+    db.collection('users').doc(fcmKey).set(userData);
     final parameterRef =
         db.collection('parameters').snapshots().listen((event) {
       setState(() {
         humidity = event.docs.last.data()['humidity'].toDouble();
-        light = event.docs.last.data()['light'].toDoule();
+        light = event.docs.last.data()['light'].toDouble();
         soil = event.docs.last.data()['soil'].toDouble();
         temperature = event.docs.last.data()['temperature'].toDouble();
 
@@ -165,7 +171,7 @@ class _HomeState extends State<Home> {
           harvests.add(element.data());
         });
       });
-      print(harvests);
+      print(harvests); 
       onError: (error) => print("listen failed: $error ");
     });
     final rowsRef = db.collection('rows').snapshots().listen((event) {
@@ -210,7 +216,8 @@ class _HomeState extends State<Home> {
                   children: [
                     ParameterCard(
                       width: (MediaQuery.of(context).size.width - 16) * 0.4,
-                      title: 'Humidity (%)',
+                      title: 'Humidity',
+                      title_1: '(%)',
                       icon: Icon(
                         Icons.water_drop_sharp,
                         color: Colors.blue.shade500,
@@ -220,7 +227,8 @@ class _HomeState extends State<Home> {
                     ),
                     ParameterCard(
                       width: (MediaQuery.of(context).size.width - 16) * 0.4,
-                      title: 'Light Level (lux)',
+                      title: 'Light Level',
+                      title_1: '(lux)',
                       icon: Icon(
                         Icons.light_mode_sharp,
                         color: Colors.yellow.shade500,
@@ -239,7 +247,8 @@ class _HomeState extends State<Home> {
                   children: [
                     ParameterCard(
                       width: (MediaQuery.of(context).size.width - 16) * 0.4,
-                      title: 'Soil Moisture(%)',
+                      title: 'Soil Moisture',
+                      title_1: '(%)',
                       icon: Icon(
                         Icons.grain_sharp,
                         color: Colors.brown.shade500,
@@ -249,13 +258,15 @@ class _HomeState extends State<Home> {
                     ),
                     ParameterCard(
                       width: (MediaQuery.of(context).size.width - 16) * 0.4,
-                      title: 'Temperature(°C)',
+                      title: 'Temperature',
+                      title_1: '(°C)',
                       icon: Icon(
                         Icons.thermostat_sharp,
                         color: Colors.blue.shade500,
                       ),
                       value: temperature,
                       decimal: 1,
+                      
                     ),
                   ],
                 ),
@@ -417,6 +428,28 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
+                SizedBox(height: 30,),
+                Container(
+                  width: (MediaQuery.of(context).size.width - 16) *  .7,
+                  height: 60,
+                  decoration: ShapeDecoration(color: const Color.fromARGB(255, 220, 182, 238),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  )),
+                   padding: const EdgeInsets.all(8),
+                   child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('PARAMETERS CHART',style: TextStyle(color: const Color(0xfcb205cf), 
+                          fontFamily: ' Roboto', 
+                          fontSize: 24, 
+                          fontWeight: FontWeight.w700,
+                          height: 1.10,
+                          letterSpacing: 0.45), 
+                          )
+                   ],)
+                ),
                 const SizedBox(
                   height: 30,
                 ),
@@ -444,9 +477,9 @@ class _HomeState extends State<Home> {
                       child: const Row (
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('HUMIDITY',style: TextStyle(color: Colors.black, 
+                          Text('HUMIDITY',style: TextStyle(color: Colors.white, 
                           fontFamily: ' Roboto', 
-                          fontSize: 15, 
+                          fontSize: 20, 
                           fontWeight: FontWeight.w700,
                           height: 1.10,
                           letterSpacing: 0.45), 
@@ -462,7 +495,131 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 const SizedBox(height: 20,),
-
+                Container(
+                  width: (MediaQuery.of(context).size.width - 16) *  .9,
+                  height: 250,
+                  decoration: ShapeDecoration(color: const Color.fromARGB(255, 220, 182, 238),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  )),
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: ((MediaQuery.of(context).size.width - 16) *  .9) *  .9,
+                        height: 40,
+                        padding: const EdgeInsets.all(5),
+                        decoration: ShapeDecoration(
+                          color: const Color((0xfcb205cf)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)
+                        )
+                      ),
+                      child: const Row (
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('LIGHT LEVEL',style: TextStyle(color: Colors.white, 
+                          fontFamily: ' Roboto', 
+                          fontSize: 20, 
+                          fontWeight: FontWeight.w700,
+                          height: 1.10,
+                          letterSpacing: 0.45), 
+                          )
+                        ],
+                      ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      ParameterLineChart(values:light_1, interval: 1000, color: Color.fromARGB(255, 170, 23, 104)),
+                    ],
+                  )
+                ),
+                SizedBox( height:  30,),
+                Container(
+                   width: (MediaQuery.of(context).size.width - 16) *  .9,
+                  height: 250,
+                  decoration: ShapeDecoration(color: const Color.fromARGB(255, 220, 182, 238),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  )),
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: ((MediaQuery.of(context).size.width - 16) *  .9) *  .9,
+                        height: 40,
+                        padding: const EdgeInsets.all(5),
+                        decoration: ShapeDecoration(
+                          color: const Color((0xfcb205cf)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)
+                        )
+                      ),
+                      child: const Row (
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('SOIL MOISTURE',style: TextStyle(color: Colors.white, 
+                          fontFamily: ' Roboto', 
+                          fontSize: 20, 
+                          fontWeight: FontWeight.w700,
+                          height: 1.10,
+                          letterSpacing: 0.45), 
+                          )
+                        ],
+                      ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      ParameterLineChart(values:soil_1, interval: 2, color: Color.fromARGB(255, 170, 23, 104)),
+                    ],
+                  )
+                ),
+                SizedBox(height: 30,),
+                Container(
+                  width: (MediaQuery.of(context).size.width - 16) *  .9,
+                  height: 250,
+                  decoration: ShapeDecoration(color: const Color.fromARGB(255, 220, 182, 238),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  )),
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: ((MediaQuery.of(context).size.width - 16) *  .9) *  .9,
+                        height: 40,
+                        padding: const EdgeInsets.all(5),
+                        decoration: ShapeDecoration(
+                          color: const Color((0xfcb205cf)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)
+                        )
+                      ),
+                      child: const Row (
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('TEMPERATURE',style: TextStyle(color: Colors.white, 
+                          fontFamily: ' Roboto', 
+                          fontSize: 20, 
+                          fontWeight: FontWeight.w700,
+                          height: 1.10,
+                          letterSpacing: 0.45), 
+                          )
+                        ],
+                      ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      ParameterLineChart(values:temperature_1, interval: 2, color: const Color.fromARGB(255, 170, 23, 104)),
+                    ],
+                  )
+                )
               ],
             ),
           ),

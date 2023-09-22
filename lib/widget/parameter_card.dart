@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class ParameterCard extends StatefulWidget {
   final double width;
   final String title;
+  final String title_1;
   final Icon icon;
   final double value;
   final int decimal;
@@ -10,6 +11,7 @@ class ParameterCard extends StatefulWidget {
       {super.key,
       required this.width,
       required this.title,
+      required this.title_1,
       required this.icon,
       required this.value,
       required this.decimal});
@@ -44,14 +46,31 @@ class _ParameterCardState extends State<ParameterCard> {
           ),
           const SizedBox(
             height: 15,
-          ),
-          Text(
-            widget.value.toStringAsFixed(widget.decimal),
-            style: const TextStyle(
+          ), 
+          Row(
+            children: [
+               Text(
+                widget.value.toStringAsFixed(widget.decimal),
+                style: const TextStyle(
                 fontFamily: 'Roboto',
                 fontSize: 40,
-                fontWeight: FontWeight.w700),
+                fontWeight: FontWeight.w700)
+                ),
+                SizedBox( width: 5,),
+                Row(
+                  children: [
+                   Text(
+                    widget.title_1,
+                     style: const TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600),
+                   ) 
+                  ],
+                )
+            ],
           )
+         
         ],
       ),
     );
