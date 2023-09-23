@@ -9,6 +9,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_application_1/services/notification_service.dart';
 import 'package:flutter_application_1/widget/linechart.dart';
+import 'widget/info.dart';
 
 late var fcmKey;
 void main() async {
@@ -49,6 +50,16 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
           appBar: AppBar(
             title: Text('Onion Sense'),
+            actions: <Widget>[
+              IconButton(
+                icon:const Icon(
+                  Icons.info_sharp,
+                  color: Colors.white,
+                ),
+                onPressed: () {  Navigator.push(context, MaterialPageRoute(builder: (context) => Info()));
+                },
+              )
+            ],
             backgroundColor: Color(0xFFA3175A),
             leading: Image.asset('assets/images/logo.png'),
           ),
@@ -220,7 +231,7 @@ class _HomeState extends State<Home> {
                       title_1: '(%)',
                       icon: Icon(
                         Icons.water_drop_sharp,
-                        color: Colors.blue.shade500,
+                        color: const Color(0xFFA3175A),
                       ),
                       value: humidity,
                       decimal: 1,
@@ -231,7 +242,7 @@ class _HomeState extends State<Home> {
                       title_1: '(lux)',
                       icon: Icon(
                         Icons.light_mode_sharp,
-                        color: Colors.yellow.shade500,
+                        color: Color(0xFFA3175A),
                       ),
                       value: light,
                       decimal: 0,
@@ -249,9 +260,9 @@ class _HomeState extends State<Home> {
                       width: (MediaQuery.of(context).size.width - 16) * 0.4,
                       title: 'Soil Moisture',
                       title_1: '(%)',
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.grain_sharp,
-                        color: Colors.brown.shade500,
+                        color:Color(0xFFA3175A),
                       ),
                       value: soil,
                       decimal: 1,
@@ -260,9 +271,9 @@ class _HomeState extends State<Home> {
                       width: (MediaQuery.of(context).size.width - 16) * 0.4,
                       title: 'Temperature',
                       title_1: '(°C)',
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.thermostat_sharp,
-                        color: Colors.blue.shade500,
+                        color: Color(0xFFA3175A),
                       ),
                       value: temperature,
                       decimal: 1,
