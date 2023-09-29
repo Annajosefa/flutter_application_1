@@ -10,6 +10,13 @@ class Info extends StatefulWidget {
 class _InfoState extends State<Info> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Info'),
+      ),
+      body: const Center(
+        child: Text('')
+        ),
+    );
   }
 }

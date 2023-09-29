@@ -9,7 +9,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_application_1/services/notification_service.dart';
 import 'package:flutter_application_1/widget/linechart.dart';
-import 'widget/info.dart';
+import 'package:flutter_application_1/widget/info.dart';
 
 late var fcmKey;
 void main() async {
@@ -48,21 +48,28 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       home: Scaffold(
-          appBar: AppBar(
-            title: Text('Onion Sense'),
+         appBar: PreferredSize(
+          preferredSize: Size.fromHeight(150.0),
+          child: AppBar(
+            centerTitle: true,
+            title: const Text('Onion Sense', style: TextStyle(fontFamily: 'Courier', fontSize: 20, fontWeight: FontWeight.w800),),
             actions: <Widget>[
               IconButton(
                 icon:const Icon(
                   Icons.info_sharp,
                   color: Colors.white,
                 ),
-                onPressed: () {  Navigator.push(context, MaterialPageRoute(builder: (context) => Info()));
+                onPressed: () {  Navigator.push(context, MaterialPageRoute(builder: (context) => Info()),);
                 },
               )
             ],
             backgroundColor: Color(0xFFA3175A),
-            leading: Image.asset('assets/images/logo.png'),
+            leading: Container( 
+              
+              child: Image.asset('assets/images/logo.png',),
+            ),
           ),
+         ),
           body: const Home(
             humidity_1: [],
             light_1: [],
