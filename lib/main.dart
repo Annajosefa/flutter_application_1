@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
           preferredSize: Size.fromHeight(150.0),
           child: AppBar(
             centerTitle: true,
-            title: const Text('Onion Sense', style: TextStyle(fontFamily: 'Courier', fontSize: 20, fontWeight: FontWeight.w800),),
+            title: const Text('Onion Sense', style: TextStyle(fontFamily: 'Courier', fontSize: 30, fontWeight: FontWeight.w800),),
             actions: <Widget>[
               IconButton(
                 icon:const Icon(
@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
             ],
             backgroundColor: Color(0xFFA3175A),
             leading: Container( 
-              
+              height: 30,
               child: Image.asset('assets/images/logo.png',),
             ),
           ),
