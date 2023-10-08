@@ -15,7 +15,7 @@ class _InfoState extends State<Info> {
         title: Text('Info'),
       ),
       body: const Center(
-        child: Text('')
+        child: Text(' onion')
         ),
     );
   }

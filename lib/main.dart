@@ -43,16 +43,30 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
+   @override
+  Widget build(BuildContext context) {
+    return MaterialApp(title:'Flutter Demo', home: MainPage());
+  }
+}
+
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      home: Scaffold(
-         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(150.0),
-          child: AppBar(
+    return Scaffold(
+         appBar: AppBar(
             centerTitle: true,
-            title: const Text('Onion Sense', style: TextStyle(fontFamily: 'Courier', fontSize: 30, fontWeight: FontWeight.w800),),
+            title: const Text('Onion Sense', 
+            style: TextStyle(
+              fontFamily: 'Courier', 
+              fontSize: 30, 
+              fontWeight: FontWeight.w800),),
             actions: <Widget>[
               IconButton(
                 icon:const Icon(
@@ -64,18 +78,17 @@ class MyApp extends StatelessWidget {
               )
             ],
             backgroundColor: Color(0xFFA3175A),
-            leading: Container( 
+            leading: SizedBox( 
               height: 30,
               child: Image.asset('assets/images/logo.png',),
             ),
           ),
-         ),
           body: const Home(
             humidity_1: [],
             light_1: [],
             soil_1: [],
             temperature_1: [],
-          )),
+          )
     );
   }
 }
