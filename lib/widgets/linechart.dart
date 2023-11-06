@@ -1,6 +1,6 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:collection/collection.dart';
 
 class ParameterLineChart extends StatefulWidget {
   final List<dynamic> values;
@@ -80,6 +80,28 @@ class _ParameterLineChartState extends State<ParameterLineChart> {
             ),
             rightTitles: const AxisTitles(
               sideTitles: SideTitles(showTitles: false),
+            ),
+          ),
+          lineTouchData: LineTouchData(
+            enabled: true,
+            touchTooltipData: LineTouchTooltipData(
+              tooltipBgColor: Colors.white,
+              tooltipRoundedRadius: 16,
+              tooltipPadding: const EdgeInsets.all(4),
+              getTooltipItems: (touchedSpots) {
+                return touchedSpots.map(
+                  (LineBarSpot touchedSpot) {
+                    return LineTooltipItem(
+                      widget.values[touchedSpot.spotIndex].toStringAsFixed(2),
+                      TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: widget.fillColor,
+                      ),
+                    );
+                  },
+                ).toList();
+              },
             ),
           ),
         ),
