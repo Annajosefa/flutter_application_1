@@ -25,7 +25,7 @@ class _ParameterCardState extends State<ParameterCard> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
-      width: MediaQuery.of(context).size.width * 0.5,
+      width: MediaQuery.of(context).size.width * 0.75,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,

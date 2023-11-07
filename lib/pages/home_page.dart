@@ -4,6 +4,7 @@ import 'package:flutter_logs/flutter_logs.dart';
 import 'package:badges/badges.dart' as badges;
 
 import 'package:flutter_application_1/pages/parameter_page.dart';
+import 'package:flutter_application_1/pages/harvest_page.dart';
 import 'package:flutter_application_1/pages/notification_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -40,15 +41,19 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    db.collection('parameters').snapshots().listen((event) {
-      setState(() {
-        humidity = event.docs.last.data()['humidity'].toDouble();
-        light = event.docs.last.data()['light'].toDouble();
-        soil = event.docs.last.data()['soil'].toDouble();
-        temperature = event.docs.last.data()['temperature'].toDouble();
-      });
+    db
+        .collection('parameters')
+        .orderBy('created_at', descending: true)
+        .snapshots()
+        .listen((event) {
       FlutterLogs.logInfo(
-          'Homepage', 'Firebase', 'Got ${event.docs.last.data()}');
+          'Homepage', 'Firebase', 'Got ${event.docs.first.data()}');
+      setState(() {
+        humidity = event.docs.first.data()['humidity'].toDouble();
+        light = event.docs.first.data()['light'].toDouble();
+        soil = event.docs.first.data()['soil'].toDouble();
+        temperature = event.docs.first.data()['temperature'].toDouble();
+      });
     });
     super.initState();
   }
@@ -127,16 +132,23 @@ class _HomePageState extends State<HomePage> {
         child: SingleChildScrollView(
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.width * 0.75,
+              minHeight: MediaQuery.of(context).size.height * 0.75,
             ),
             child: Column(
               children: [
-                ParameterPage(
-                  humidity: humidity,
-                  light: light,
-                  soil: soil,
-                  temperature: temperature,
-                ),
+                pageIndex == 0
+                    ? ParameterPage(
+                        humidity: humidity,
+                        light: light,
+                        soil: soil,
+                        temperature: temperature,
+                      )
+                    : HarvestPage(
+                        humidity: humidity,
+                        light: light,
+                        soil: soil,
+                        temperature: temperature,
+                      ),
               ],
             ),
           ),

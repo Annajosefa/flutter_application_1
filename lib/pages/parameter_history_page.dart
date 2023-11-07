@@ -37,7 +37,11 @@ class _ParameterHistoryPageState extends State<ParameterHistoryPage> {
   @override
   void initState() {
     super.initState();
-    db.collection('parameters').snapshots().listen((event) {
+    db
+        .collection('parameters')
+        .orderBy('created_at')
+        .snapshots()
+        .listen((event) {
       setState(() {
         humidityList = modifyParameterList(event, 'humidity', 30);
         lightList = modifyParameterList(event, 'light', 30);

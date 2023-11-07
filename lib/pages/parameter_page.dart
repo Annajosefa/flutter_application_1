@@ -66,7 +66,7 @@ class _ParameterPageState extends State<ParameterPage> {
                   icon: Icons.light_mode,
                   title: 'Light Level',
                   value: widget.light,
-                  maxValue: 100,
+                  maxValue: 8000,
                   label: 'lux',
                 ),
                 const SizedBox(height: 8),
