@@ -46,6 +46,8 @@ dependencies:
   intl: ^0.18.1
   flutter_date_pickers: ^0.4.2
   isoweek: ^1.1.4
+  sqflite: ^2.3.0
+  path: ^1.8.3
 
 dev_dependencies:
   flutter_test:

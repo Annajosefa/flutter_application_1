@@ -3,12 +3,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:badges/badges.dart' as badges;
 
+import 'package:flutter_application_1/services/database.dart';
+
 import 'package:flutter_application_1/pages/parameter_page.dart';
 import 'package:flutter_application_1/pages/harvest_page.dart';
 import 'package:flutter_application_1/pages/notification_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final OnionSenseDatabase database;
+  const HomePage({
+    super.key,
+    required this.database,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -92,7 +98,11 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => NotificationPage()),
+                  MaterialPageRoute(
+                    builder: (context) => NotificationPage(
+                      database: widget.database,
+                    ),
+                  ),
                 );
               },
             ),
