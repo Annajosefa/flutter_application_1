@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/parameter_history_page.dart';
 
 import 'package:flutter_application_1/widgets/parameter_card.dart';
+import 'package:flutter_application_1/widgets/row_list.dart';
 
 class ParameterPage extends StatefulWidget {
   final double humidity;
@@ -84,10 +85,27 @@ class _ParameterPageState extends State<ParameterPage> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFD67BFF),
                   ),
-                )
+                ),
               ],
             ),
           ),
+          Positioned(
+            top: 16,
+            right: 8,
+            child: ElevatedButton.icon(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => RowList(),
+                );
+              },
+              icon: const Icon(Icons.grass),
+              label: const Text('Check harvest availability'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFD67BFF),
+              ),
+            ),
+          )
         ],
       ),
     );

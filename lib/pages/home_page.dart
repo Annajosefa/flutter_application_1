@@ -27,11 +27,6 @@ class _HomePageState extends State<HomePage> {
   double light = 0.0;
   double soil = 0.0;
   double temperature = 0.0;
-  bool r1 = false;
-  bool r2 = false;
-  bool r3 = false;
-  bool r4 = false;
-  bool r5 = false;
   List<dynamic> humidityList = [];
   List<dynamic> lightList = [];
   List<dynamic> soilList = [];
