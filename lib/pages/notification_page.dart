@@ -1,23 +1,33 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter_application_1/services/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class NotificationPage extends StatefulWidget {
-  final OnionSenseDatabase database;
-  const NotificationPage({
-    super.key,
-    required this.database,
-  });
+  const NotificationPage({super.key});
 
   @override
   State<NotificationPage> createState() => _NotificationPageState();
 }
 
 class _NotificationPageState extends State<NotificationPage> {
+  FirebaseFirestore db = FirebaseFirestore.instance;
   bool loaded = false;
-  List<Map<String, dynamic>> notifications = [{}];
+  List<Map<String, dynamic>> notifications = [];
+
   @override
   void initState() {
+    db
+        .collection('notifications')
+        .orderBy('created_at', descending: true)
+        .get()
+        .then((querySnapshot) {
+      for (var docSnapshot in querySnapshot.docs) {
+        notifications.add(docSnapshot.data());
+      }
+      setState(() {
+        loaded = true;
+      });
+    });
     super.initState();
   }
 
@@ -44,7 +54,11 @@ class _NotificationPageState extends State<NotificationPage> {
             ? NotificationMainPage(
                 notifications: notifications,
               )
-            : const CircularProgressIndicator(color: Color(0xFFD67BFF)),
+            : const Center(
+                child: CircularProgressIndicator(
+                  color: Color(0xFFD67BFF),
+                ),
+              ),
       ),
     );
   }
@@ -67,48 +81,48 @@ class _NotificationMainPageState extends State<NotificationMainPage> {
   int otherNotifications = 0;
 
   @override
-  void initState() {
-    getNotificationsCount();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          minHeight: MediaQuery.of(context).size.height * 0.8,
+    print(widget.notifications);
+    if (widget.notifications.isEmpty) {
+      return const Center(
+        child: Text(
+          'No Notifications Yet!',
+          style: TextStyle(
+            fontFamily: 'Roboto',
+            fontSize: 26,
+            fontWeight: FontWeight.w700,
+          ),
         ),
-        child: Column(),
-      ),
-    );
-  }
-
-  void getNotificationsCount() {
-    int tempNotificationsToday = 0;
-    int tempNotificationsYesterday = 0;
-    DateTime tempDate = DateTime.now();
-    DateTime dateToday =
-        DateTime(tempDate.year, tempDate.month, tempDate.day, 0, 0, 0);
-    DateTime dateYesterday = dateToday.subtract(const Duration(days: 1));
-    for (var item in widget.notifications) {
-      DateTime dateTime = DateTime.parse(item['created_at']);
-      if (dateTime.isAfter(dateToday)) {
-        tempNotificationsToday += 1;
-      } else if (dateTime.isAfter(dateYesterday)) {
-        tempNotificationsYesterday += 1;
-      } else {
-        // Assumes that notifications are arranged by created date
-        break;
-      }
+      );
     }
-    int tempOtherNotifications = widget.notifications.length -
-        (tempNotificationsToday + tempNotificationsYesterday);
-
-    setState(() {
-      notificationsToday = tempNotificationsToday;
-      notificationsYesterday = tempNotificationsYesterday;
-      otherNotifications = tempOtherNotifications;
-    });
+    return ListView.separated(
+      itemBuilder: (BuildContext context, int index) {
+        IconData icon = Icons.error;
+        String title = '';
+        String content = widget.notifications[index]['content'];
+        DateTime dateTime = widget.notifications[index]['created_at'].toDate();
+        if (widget.notifications[index]['genre'] == 'reminder') {
+          icon = Icons.local_florist;
+          title = 'A row is ready to be harvested';
+        } else if (widget.notifications[index]['genre'] == 'harvest') {
+          icon = Icons.grass;
+          title = 'A new harvest has arrived!';
+        }
+        return ListTile(
+          isThreeLine: true,
+          leading: Icon(
+            icon,
+            color: const Color(0xFFD67BFF),
+            size: 28,
+          ),
+          title: Text(title),
+          subtitle: Text(
+            '$content\n${DateFormat.yMMMEd().add_jms().format(dateTime)}',
+          ),
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) => const Divider(),
+      itemCount: widget.notifications.length,
+    );
   }
 }

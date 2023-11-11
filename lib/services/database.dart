@@ -45,7 +45,7 @@ class OnionSenseDatabase {
   Future<int> getNotificationRead() async {
     List<Map<String, dynamic>> settingResult =
         await database.rawQuery('SELECT seen FROM settings WHERE id = 1');
-    int notificationRead = int.parse(settingResult[0]['seen']);
+    int notificationRead = settingResult[0]['seen'] as int;
     return notificationRead;
   }
 

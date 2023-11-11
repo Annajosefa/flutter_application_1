@@ -31,6 +31,9 @@ class _HomePageState extends State<HomePage> {
   List<dynamic> lightList = [];
   List<dynamic> soilList = [];
   List<dynamic> temperatureList = [];
+  int allNotifications = 0;
+  int notificationRead = 0;
+  int unreadNotifications = 0;
 
   int pageIndex = 0;
 
@@ -42,6 +45,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    widget.database.getNotificationRead().then((value) {
+      setState(() {
+        notificationRead = value;
+      });
+    });
     db
         .collection('parameters')
         .orderBy('created_at', descending: true)
@@ -56,13 +64,17 @@ class _HomePageState extends State<HomePage> {
         temperature = event.docs.first.data()['temperature'].toDouble();
       });
     });
+    db.collection('notifications').snapshots().listen((event) {
+      allNotifications = event.docs.length;
+      setState(() {
+        unreadNotifications = allNotifications - notificationRead;
+      });
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    int unreadNotifications = 1;
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -91,12 +103,11 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.yellow,
               ),
               onPressed: () {
+                widget.database.updateUnreadNotifications(allNotifications);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => NotificationPage(
-                      database: widget.database,
-                    ),
+                    builder: (context) => const NotificationPage(),
                   ),
                 );
               },
