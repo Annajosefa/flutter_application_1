@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_application_1/services/appstate.dart';
+import 'package:flutter_application_1/services/translations.dart';
 
 import 'package:flutter_application_1/pages/home_page.dart';
 import 'package:flutter_application_1/pages/settings_page.dart';
@@ -68,9 +69,10 @@ class _AppDrawerState extends State<AppDrawer> {
                         Icons.home_outlined,
                         size: 36,
                       ),
-                      title: const Text(
-                        'Home',
-                        style: TextStyle(
+                      title: Text(
+                        translations['home']
+                            [widget.appState.settings['language']],
+                        style: const TextStyle(
                           fontSize: 14,
                         ),
                       ),
@@ -90,9 +92,10 @@ class _AppDrawerState extends State<AppDrawer> {
                         Icons.settings,
                         size: 32,
                       ),
-                      title: const Text(
-                        'Settings',
-                        style: TextStyle(
+                      title: Text(
+                        translations['settings']
+                            [widget.appState.settings['language']],
+                        style: const TextStyle(
                           fontSize: 14,
                         ),
                       ),
@@ -112,9 +115,10 @@ class _AppDrawerState extends State<AppDrawer> {
                         Icons.info,
                         size: 32,
                       ),
-                      title: const Text(
-                        'About',
-                        style: TextStyle(
+                      title: Text(
+                        translations['about']
+                            [widget.appState.settings['language']],
+                        style: const TextStyle(
                           fontSize: 14,
                         ),
                       ),

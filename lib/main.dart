@@ -60,13 +60,15 @@ void main() async {
   final userData = {"key": fcmToken, "subscribed": true};
   db.collection('users').doc(fcmToken).set(userData);
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => AppState(),
-    child: MyApp(
-      database: database,
-      settings: settings,
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AppState(),
+      child: MyApp(
+        database: database,
+        settings: settings,
+      ),
     ),
-  ));
+  );
 }
 
 Future<void> backgroundMessageHandler(RemoteMessage message) async {
