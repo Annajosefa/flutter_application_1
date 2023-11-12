@@ -4,9 +4,11 @@ import 'package:flutter_application_1/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_logs/flutter_logs.dart';
+import 'package:provider/provider.dart';
 
 import 'package:flutter_application_1/services/notification_service.dart';
 import 'package:flutter_application_1/services/database.dart';
+import 'package:flutter_application_1/services/appstate.dart';
 
 import 'package:flutter_application_1/pages/home_page.dart';
 
@@ -33,8 +35,9 @@ void main() async {
     isDebuggable: true,
   );
 
-  database = OnionSenseDatabase('onionsense_test_db_1');
+  database = OnionSenseDatabase('onionsense_test_db_2');
   await database.initializeDatabase();
+  Map<String, dynamic> settings = await database.loadSettings();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -57,7 +60,13 @@ void main() async {
   final userData = {"key": fcmToken, "subscribed": true};
   db.collection('users').doc(fcmToken).set(userData);
 
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => AppState(),
+    child: MyApp(
+      database: database,
+      settings: settings,
+    ),
+  ));
 }
 
 Future<void> backgroundMessageHandler(RemoteMessage message) async {
@@ -70,20 +79,34 @@ Future<void> backgroundMessageHandler(RemoteMessage message) async {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  final OnionSenseDatabase database;
+  final Map<String, dynamic> settings;
+  const MyApp({
+    super.key,
+    required this.database,
+    required this.settings,
+  });
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+  bool setupDone = false;
+
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<AppState>(context);
+    if (!setupDone) {
+      appState.initializeDatabase(widget.database);
+      appState.initializeSettings(widget.settings);
+      setupDone = true;
+    }
     return MaterialApp(
       title: 'Onion Sense',
       debugShowCheckedModeBanner: false,
       home: HomePage(
-        database: database,
+        appState: appState,
       ),
     );
   }

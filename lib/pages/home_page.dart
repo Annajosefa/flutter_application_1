@@ -3,17 +3,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:badges/badges.dart' as badges;
 
-import 'package:flutter_application_1/services/database.dart';
+import 'package:flutter_application_1/services/appstate.dart';
 
 import 'package:flutter_application_1/pages/parameter_page.dart';
 import 'package:flutter_application_1/pages/harvest_page.dart';
 import 'package:flutter_application_1/pages/notification_page.dart';
 
+import 'package:flutter_application_1/widgets/app_drawer.dart';
+
 class HomePage extends StatefulWidget {
-  final OnionSenseDatabase database;
+  final AppState appState;
   const HomePage({
     super.key,
-    required this.database,
+    required this.appState,
   });
 
   @override
@@ -21,6 +23,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var scaffoldKey = GlobalKey<ScaffoldState>();
   FirebaseFirestore db = FirebaseFirestore.instance;
   List<dynamic> harvests = [];
   double humidity = 0.0;
@@ -45,7 +48,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    widget.database.getNotificationRead().then((value) {
+    widget.appState.database.getNotificationRead().then((value) {
       setState(() {
         notificationRead = value;
       });
@@ -76,6 +79,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
+      drawer: AppDrawer(
+        appState: widget.appState,
+      ),
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
@@ -103,7 +110,8 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.yellow,
               ),
               onPressed: () {
-                widget.database.updateUnreadNotifications(allNotifications);
+                widget.appState.database
+                    .updateUnreadNotifications(allNotifications);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -117,8 +125,19 @@ class _HomePageState extends State<HomePage> {
         ],
         backgroundColor: const Color(0xFFD67BFF),
         leading: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Image.asset('assets/images/logo.png'),
+          padding: const EdgeInsets.all(8.0),
+          child: InkWell(
+            onTap: () {
+              scaffoldKey.currentState!.openDrawer();
+            }, // Image tapped
+            splashColor: Colors.white10, // Splash color over image
+            child: Ink.image(
+              fit: BoxFit.cover, // Fixes border issues
+              width: 16,
+              height: 16,
+              image: const AssetImage('assets/images/logo.png'),
+            ),
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
