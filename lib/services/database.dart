@@ -17,13 +17,6 @@ class OnionSenseDatabase {
     });
   }
 
-  void addNotification(String genre, String title, String body) async {
-    database.rawInsert(
-      'INSERT INTO notifications(genre, title, body, created_at) VAlUES (?, ?, ?, ?)',
-      [genre, title, body, DateTime.now().toString()],
-    );
-  }
-
   Future<Map<String, dynamic>> loadSettings() async {
     List<Map<String, dynamic>> result = await database
         .rawQuery('SELECT language, font_scale FROM settings WHERE id = 1');

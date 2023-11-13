@@ -35,7 +35,7 @@ void main() async {
     isDebuggable: true,
   );
 
-  database = OnionSenseDatabase('onionsense_test_db_2');
+  database = OnionSenseDatabase('onionsense_test_db_3');
   await database.initializeDatabase();
   Map<String, dynamic> settings = await database.loadSettings();
 
@@ -47,8 +47,6 @@ void main() async {
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     showNotification(message.notification?.title ?? 'No title',
         message.notification?.body ?? 'No body');
-    database.addNotification('reminder', message.notification?.title ?? 'None',
-        message.notification?.body ?? 'None');
   });
   FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
 
@@ -76,8 +74,6 @@ Future<void> backgroundMessageHandler(RemoteMessage message) async {
     message.notification?.title ?? 'No title',
     message.notification?.body ?? 'No body',
   );
-  database.addNotification('reminder', message.notification?.title ?? 'None',
-      message.notification?.body ?? 'None');
 }
 
 class MyApp extends StatefulWidget {
