@@ -4,6 +4,7 @@ import 'package:flutter_application_1/services/appstate.dart';
 import 'package:flutter_application_1/services/translations.dart';
 
 import 'package:flutter_application_1/pages/home_page.dart';
+import 'package:flutter_application_1/pages/control_page.dart';
 import 'package:flutter_application_1/pages/settings_page.dart';
 import 'package:flutter_application_1/pages/about_page.dart';
 
@@ -87,6 +88,28 @@ class _AppDrawerState extends State<AppDrawer> {
                             builder: ((context) => HomePage(
                                   appState: widget.appState,
                                 )),
+                          ),
+                        );
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(
+                        Icons.wifi_tethering_rounded,
+                        size: 32,
+                      ),
+                      title: Text(
+                        translations['controls']
+                            [widget.appState.settings['language']],
+                        style: const TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: ((context) =>
+                                ControlPage(appState: widget.appState)),
                           ),
                         );
                       },

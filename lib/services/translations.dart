@@ -4,6 +4,10 @@ Map<String, dynamic> translations = {
     'en': 'Home',
     'tg': 'Bahay',
   },
+  'controls': {
+    'en': 'Controls',
+    'tg': 'Mga control',
+  },
   'settings': {
     'en': 'Settings',
     'tg': 'Mga setting',
