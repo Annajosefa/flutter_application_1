@@ -70,23 +70,26 @@ class _ParameterPageState extends State<ParameterPage> {
                   maxValue: 8000,
                   label: 'lux',
                 ),
-                const SizedBox(height: 8),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ParameterHistoryPage(),
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.bar_chart),
-                  label: const Text('See Parameter History'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFD67BFF),
-                  ),
-                ),
               ],
+            ),
+          ),
+          Positioned(
+            bottom: 72,
+            left: 24,
+            child: ElevatedButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ParameterHistoryPage(),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.bar_chart),
+              label: const Text('See Parameter History'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFD67BFF),
+              ),
             ),
           ),
           Positioned(
@@ -100,7 +103,7 @@ class _ParameterPageState extends State<ParameterPage> {
                 );
               },
               icon: const Icon(Icons.grass),
-              label: const Text('Check harvest availability'),
+              label: const Text('Harvest availability'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFD67BFF),
               ),

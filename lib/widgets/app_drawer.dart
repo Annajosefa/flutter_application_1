@@ -26,36 +26,40 @@ class _AppDrawerState extends State<AppDrawer> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            /// Header of the Drawer
-            Material(
-              color: const Color(0xFFD67BFF),
-              child: InkWell(
-                onTap: () {
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfile()),);
-                },
-                child: Container(
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).padding.top, bottom: 24),
-                  child: const Column(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/images/harvest_avatar.png'),
-                        minRadius: 90,
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        'OnionSense',
-                        style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 28,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
+            // Drawer Header
+            Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/onion.png'),
+                  fit: BoxFit.cover,
                 ),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.elliptical(32, 32),
+                  bottomRight: Radius.elliptical(32, 32),
+                ),
+              ),
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).padding.top,
+                bottom: 24,
+              ),
+              child: const Column(
+                children: [
+                  CircleAvatar(
+                    backgroundImage:
+                        AssetImage('assets/images/harvest_avatar.png'),
+                    minRadius: 90,
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'OnionSense',
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 28,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
             ),
 
