@@ -77,7 +77,7 @@ class _ParameterHistoryPageState extends State<ParameterHistoryPage> {
         child: SingleChildScrollView(
           child: ConstrainedBox(
             constraints: BoxConstraints(
-                minHeight: MediaQuery.of(context).size.height * 0.8),
+                minHeight: MediaQuery.of(context).size.height - 128),
             child: Column(
               children: [
                 const SizedBox(height: 16),
