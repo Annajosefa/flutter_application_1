@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_application_1/services/appstate.dart';
+import 'package:flutter_application_1/services/translations.dart';
 
 import 'package:flutter_application_1/widgets/app_drawer.dart';
 
@@ -56,8 +57,48 @@ class _AboutPageState extends State<AboutPage> {
             constraints: BoxConstraints(
               minHeight: MediaQuery.of(context).size.height * 0.75,
             ),
-            child: Column(
-              children: [],
+            child: Container(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Text(
+                    translations['about'][widget.appState.settings['language']],
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    translations['about_welcome'][widget.appState.settings['language']],
+                    textAlign: TextAlign.justify,
+                    style: const TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    translations['mission_title'][widget.appState.settings['language']],
+                    style: const TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    translations['mission_body'][widget.appState.settings['language']],
+                    textAlign: TextAlign.justify,
+                    style: const TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
