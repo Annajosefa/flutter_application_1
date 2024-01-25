@@ -31,6 +31,7 @@ class _ParameterPageState extends State<ParameterPage> {
           Positioned(
             child: Container(
               width: MediaQuery.of(context).size.width,
+              height:MediaQuery.of(context).size.height-128,
               child: Image.asset(
                 'assets/images/home_bg.png',
                 fit: BoxFit.fitHeight,
