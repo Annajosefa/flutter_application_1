@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
     });
     db
         .collection('parameters')
-        .orderBy('created_at', descending: true)
+        .orderBy('created_at', descending: true).limit(1)
         .snapshots()
         .listen((event) {
       FlutterLogs.logInfo(

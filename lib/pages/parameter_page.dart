@@ -39,7 +39,7 @@ class _ParameterPageState extends State<ParameterPage> {
             ),
           ),
           Positioned(
-            top: 48,
+            top: 70,
             left: 8,
             child: Column(
               children: [
@@ -75,7 +75,7 @@ class _ParameterPageState extends State<ParameterPage> {
             ),
           ),
           Positioned(
-            bottom: 72,
+            bottom: 58,
             left: 24,
             child: ElevatedButton.icon(
               onPressed: () {
