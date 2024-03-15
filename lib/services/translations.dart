@@ -18,6 +18,22 @@ Map<String, dynamic> translations = {
   },
 
   // Home Page
+  'temperature': {
+    'en': 'Temperature',
+    'tg': 'Temperatura',
+  },
+  'humidity': {
+    'en': 'Humidity',
+    'tg': 'Halumigmig',
+  },
+  'soil': {
+    'en': 'Soil Moisture',
+    'tg': 'Kahalumigmigan',
+  },
+  'light': {
+    'en': 'Light Intensity',
+    'tg': 'Liwanag',
+  },
 
   // About Page
   'about_welcome': {
